@@ -1,0 +1,321 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Rendol';
+  src: local('Rendol'), local('Plus Jakarta Sans'), local('Inter');
+  font-weight: 300 700;
+  font-display: swap;
+}
+
+:root {
+  /* White + Blue Master Palette */
+  --lodge-bg: #FFFFFF;
+  --lodge-soft: #F7FAFC;
+  --lodge-primary: #123A63;
+  --lodge-secondary: #1E5B8F;
+  --lodge-surface: #EAF3F9;
+  --lodge-dark: #17212B;
+  --lodge-muted: #64717D;
+  --lodge-border: #DFE7EE;
+  --lodge-warm: #E6DDCF;
+  --lodge-brand-dark: #0f1115;
+
+  /* Font */
+  --font-primary: 'Rendol', 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+html {
+  font-family: var(--font-primary);
+  background-color: var(--lodge-bg);
+  color: var(--lodge-dark);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: var(--font-primary);
+  background-color: var(--lodge-bg);
+  color: var(--lodge-dark);
+  overflow-x: hidden;
+}
+
+/* ==========================================================
+   3D TACTILE PERSPECTIVE & PARALLAX DEPTH UTILITIES
+   ========================================================== */
+.transform-style-3d {
+  transform-style: preserve-3d;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.translate-z-10 {
+  transform: translateZ(10px);
+}
+
+.translate-z-20 {
+  transform: translateZ(20px);
+}
+
+.translate-z-30 {
+  transform: translateZ(30px);
+}
+
+.translate-z-40 {
+  transform: translateZ(40px);
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* ==========================================================
+   ARCHITECTURAL SHARP BOX GEOMETRY (ZERO RADIUS RESET)
+   ========================================================== */
+*, *::before, *::after {
+  border-radius: 0px !important;
+}
+
+/* Dark Airy Glass Box (Hero Booking, Floating Overlays, Dark Modals) */
+.glass-ultra-dark,
+.glass-card-large {
+  background: rgba(18, 20, 26, 0.40);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.45);
+  border-radius: 0px !important;
+}
+
+/* Calendar Range Picker Popover (Ultra-Premium Frosted Glass Box) */
+.glass-calendar-popover {
+  background: rgba(18, 20, 26, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  border-radius: 0px !important;
+}
+
+/* Light Luminous Glass Box (Hero Nav Scrolled, White Sections) */
+.glass-ultra-light {
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(18, 58, 99, 0.12);
+  box-shadow: 0 15px 35px rgba(18, 35, 60, 0.06);
+  border-radius: 0px !important;
+}
+
+/* Hero Floating Navbar - Top Transparent State (Architectural Sharp Box) */
+.glass-nav-top {
+  background: rgba(18, 20, 26, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.30);
+  border-radius: 0px !important;
+}
+
+/* Hero Floating Navbar - Scrolled State (Architectural Sharp Box) */
+.glass-nav-scrolled {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(18, 58, 99, 0.12);
+  box-shadow: 0 15px 35px rgba(18, 35, 60, 0.08);
+  border-radius: 0px !important;
+}
+
+/* Luxury Light Section Card (Architectural Crisp Box) */
+.card-luxury {
+  background: #FFFFFF;
+  border: 1px solid rgba(18, 58, 99, 0.10);
+  border-radius: 0px !important;
+  box-shadow: 0 15px 35px rgba(18, 35, 60, 0.06);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.card-luxury:hover {
+  border-color: rgba(18, 58, 99, 0.22);
+  box-shadow: 0 20px 45px rgba(18, 35, 60, 0.10);
+}
+
+/* Inputs & Form Controls - Dark Glass UI (Sharp Box) */
+.input-glass-dark {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 0px !important;
+  color: #FFFFFF;
+  font-size: 0.8125rem;
+  min-height: 48px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.input-glass-dark:focus {
+  background: rgba(255, 255, 255, 0.10);
+  border-color: rgba(255, 255, 255, 0.50);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.10);
+}
+
+/* Inputs & Form Controls - Light UI (Sharp Box) */
+.input-luxury-light {
+  background: rgba(247, 250, 252, 0.85);
+  border: 1px solid rgba(18, 58, 99, 0.14);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 0px !important;
+  color: #17212B;
+  font-size: 0.8125rem;
+  min-height: 48px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.input-luxury-light:focus {
+  background: #FFFFFF;
+  border-color: #123A63;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(18, 58, 99, 0.10);
+}
+
+/* Crisp Small Elegant Form Labels */
+.label-luxury-dark {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.60);
+  margin-bottom: 0.375rem;
+  display: block;
+}
+
+.label-luxury-light {
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: #64717D;
+  margin-bottom: 0.375rem;
+  display: block;
+}
+
+/* Primary High-Contrast Modern Sharp CTA */
+.btn-primary-luxury {
+  background-color: #FFFFFF;
+  color: #0f1115;
+  border-radius: 0px !important;
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  font-weight: 600;
+  min-height: 48px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-primary-luxury:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+  background-color: #FFFFFF;
+}
+
+/* Secondary Translucent Sharp Box Button */
+.btn-glass-secondary {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #FFFFFF;
+  border-radius: 0px !important;
+  font-weight: 500;
+  min-height: 48px;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-glass-secondary:hover {
+  background: rgba(255, 255, 255, 0.16);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: translateY(-2px);
+}
+
+/* High-Contrast Blue Sharp Box CTA */
+.btn-blue-luxury {
+  background-color: #123A63;
+  color: #FFFFFF;
+  border-radius: 0px !important;
+  border: 1px solid rgba(18, 58, 99, 0.30);
+  font-weight: 600;
+  min-height: 48px;
+  box-shadow: 0 8px 20px rgba(18, 58, 99, 0.25);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-blue-luxury:hover {
+  background-color: #1E5B8F;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(18, 58, 99, 0.35);
+}
+
+/* Glass Modal Backdrop */
+.modal-backdrop-glass {
+  background: rgba(18, 20, 26, 0.45);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Accessibility focus */
+:focus-visible {
+  outline: 2px solid var(--lodge-primary);
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  top: -9999px;
+  left: 20px;
+  background: var(--lodge-primary);
+  color: #ffffff;
+  padding: 12px 20px;
+  z-index: 99999;
+  border-radius: 0px !important;
+  text-decoration: none;
+  font-weight: 600;
+  transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+  top: 20px;
+}
+
+/* Touch device adjustments — smooth fallback elevation */
+@media (hover: none) {
+  .btn-primary-luxury:hover,
+  .btn-blue-luxury:hover,
+  .btn-glass-secondary:hover {
+    transform: translateY(-2px) !important;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
