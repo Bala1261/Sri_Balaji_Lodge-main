@@ -4,10 +4,10 @@ import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
 export interface Card3DProps {
   children: React.ReactNode;
   className?: string;
-  maxTilt?: number; // Max rotation in degrees (e.g. 8 - 12)
-  scale?: number; // Scale on hover (e.g. 1.02)
-  glareOpacity?: number; // Opacity of dynamic light shimmer (e.g. 0.16)
-  glareColor?: string; // Light shimmer color
+  maxTilt?: number;
+  scale?: number;
+  glareOpacity?: number;
+  glareColor?: string;
   disabled?: boolean;
   style?: React.CSSProperties;
   onClick?: () => void;
@@ -34,14 +34,21 @@ export const Card3D: React.FC<Card3DProps> = ({
   useEffect(() => {
     const checkTouch = () => {
       const hasTouch =
-        window.matchMedia('(hover: none)').matches ||
+        (typeof window.matchMedia === 'function' &&
+          window.matchMedia('(hover: none)').matches) ||
         'ontouchstart' in window ||
-        navigator.maxTouchPoints > 0;
+        (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0);
+
       setIsTouchDevice(hasTouch);
     };
+
     checkTouch();
+
     window.addEventListener('resize', checkTouch, { passive: true });
-    return () => window.removeEventListener('resize', checkTouch);
+
+    return () => {
+      window.removeEventListener('resize', checkTouch);
+    };
   }, []);
 
   // Raw cursor position normalized (-0.5 to 0.5)
@@ -52,20 +59,49 @@ export const Card3D: React.FC<Card3DProps> = ({
   const glareX = useMotionValue(0);
   const glareY = useMotionValue(0);
 
-  // Soft, damp spring physics strictly controlled for high-end Stripe/Apple corporate feel
-  // transition: transform 0.4s cubic-bezier(0.03, 0.98, 0.52, 0.99)
-  const springConfig = { damping: 28, stiffness: 180, mass: 0.8 };
+  // Soft, damp spring physics
+  const springConfig = {
+    damping: 28,
+    stiffness: 180,
+    mass: 0.8,
+  };
+
   const smoothX = useSpring(x, springConfig);
   const smoothY = useSpring(y, springConfig);
 
   // 3D Tilt transforms
-  const rotateX = useTransform(smoothY, [-0.5, 0.5], [maxTilt, -maxTilt]);
-  const rotateY = useTransform(smoothX, [-0.5, 0.5], [-maxTilt, maxTilt]);
-  const cardScale = useSpring(isHovered ? scale : 1, springConfig);
+  const rotateX = useTransform(
+    smoothY,
+    [-0.5, 0.5],
+    [maxTilt, -maxTilt]
+  );
 
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+  const rotateY = useTransform(
+    smoothX,
+    [-0.5, 0.5],
+    [-maxTilt, maxTilt]
+  );
+
+  const cardScale = useSpring(
+    isHovered ? scale : 1,
+    springConfig
+  );
+
+  // Dynamic glare transform.
+  // IMPORTANT: This hook must always run, before any conditional return.
+  const glareBackground = useTransform(
+    [glareX, glareY],
+    ([gx, gy]) =>
+      `radial-gradient(circle 380px at ${gx}px ${gy}px, ${glareColor}, transparent 75%)`
+  );
+
+  const handleMouseMove = (
+    e: React.MouseEvent<HTMLDivElement>
+  ) => {
     if (disabled || isTouchDevice || !cardRef.current) return;
+
     const rect = cardRef.current.getBoundingClientRect();
+
     const width = rect.width;
     const height = rect.height;
 
@@ -94,7 +130,7 @@ export const Card3D: React.FC<Card3DProps> = ({
     y.set(0);
   };
 
-  // On touch devices: Fallback to simple, safe touch elevation without tilt jitter
+  // On touch devices: fallback to simple, safe touch elevation
   if (isTouchDevice || disabled) {
     return (
       <div
@@ -119,8 +155,8 @@ export const Card3D: React.FC<Card3DProps> = ({
       style={{
         perspective: 1000,
         transformStyle: 'preserve-3d',
-        rotateX: rotateX,
-        rotateY: rotateY,
+        rotateX,
+        rotateY,
         scale: cardScale,
         ...style,
       }}
@@ -137,11 +173,7 @@ export const Card3D: React.FC<Card3DProps> = ({
         <motion.div
           className="absolute inset-0"
           style={{
-            background: useTransform(
-              [glareX, glareY],
-              ([gx, gy]) =>
-                `radial-gradient(circle 380px at ${gx}px ${gy}px, ${glareColor}, transparent 75%)`
-            ),
+            background: glareBackground,
           }}
         />
       </motion.div>
